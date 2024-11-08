@@ -7,9 +7,12 @@ class QuickSort:
         self.randomized = randomized
 
     def partition(self, low, high):
-        pivot = self.arr[randint(
-            low, high)] if self.randomized else self.arr[low]
-        i = low
+        if self.randomized:
+            pivot_idx = randint(low, high)
+            self.arr[low], self.arr[pivot_idx] = self.arr[pivot_idx], self.arr[low]
+
+        pivot = self.arr[low]
+        i = low + 1
         j = high
 
         while True:
