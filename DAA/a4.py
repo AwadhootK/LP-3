@@ -12,12 +12,13 @@ class NQueens:
         for row in mat:
             print(" ".join(map(str, row)))
 
-    def solve(self, col):
-        if col == self.n:
+    def solve(self, iteration, succ_cols):
+        if iteration == len(succ_cols):
             print("Solution:")
             self.print_mat(self.board)
             return True  # Found one solution
 
+        col = succ_cols[iteration]
         found_solution = False
         for row in range(self.n):
             if (self.left_row[row] == 0 and
@@ -30,7 +31,8 @@ class NQueens:
                 self.upper_diagonal[self.n - 1 + col - row] = 1
 
                 # Recur to place next queen
-                found_solution = self.solve(col + 1) or found_solution
+                found_solution = self.solve(
+                    iteration + 1, succ_cols) or found_solution
 
                 # Backtrack
                 self.board[row][col] = '_'
@@ -57,8 +59,12 @@ class NQueens:
         self.lower_diagonal[self.x + self.y] = 1
         self.upper_diagonal[self.n - 1 + self.y - self.x] = 1
 
-        # Start solving from the next column
-        can_place = self.solve(1)
+        # Exclude the column where the first queen is placed
+        succ_columns = [i for i in range(self.n) if i != self.y]
+        print("Columns to be filled after placing the first queen:", succ_columns)
+
+        # Start solving from the next column in the list
+        can_place = self.solve(0, succ_columns)
         if not can_place:
             print('Cannot place queens for given input coordinates')
 
