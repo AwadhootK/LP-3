@@ -22,7 +22,7 @@ def traverse(node: Node, code: str, table):
         table[node.sym] = code
         return table
     table = traverse(node=node.left, code=code+'0', table=table)
-    traverse(node=node.right, code=code+'1', table=table)
+    table = traverse(node=node.right, code=code+'1', table=table)
     return table
 
 
@@ -67,7 +67,7 @@ def huffman_encode(msg):
     print('Size before compression = ', original_size)
     print('Size after compression = ', compressed_size)
     print('%Compression = ' +
-          str(((original_size-compressed_size)/original_size) * 100) + "%")
+          str((abs(original_size-compressed_size)/original_size) * 100) + "%")
 
     sent_msg = ''
     for i in msg:
